@@ -5,6 +5,8 @@ export const schema = `#graphql
     direction: String!
     city: String!
     phone: String!
+    time: String!
+    temperature:String!
   }
 
   type Query {
