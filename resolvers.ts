@@ -105,8 +105,9 @@ export const resolvers = {
     time:async (parent:APIPhone): Promise<string> =>{
       const API_KEY = Deno.env.get("API_KEY");
       if(!API_KEY) throw new GraphQLError("You need a ApiKey Ninja");
+      console.log(parent.timezones);
+
       const timezone = parent.timezones[0];
-      console.log(timezone);
       const url = `https://api.api-ninjas.com/v1/worldtime?timezone=${timezone}`;
       
       const data = await fetch(url,
