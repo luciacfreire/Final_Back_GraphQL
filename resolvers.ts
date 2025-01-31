@@ -110,7 +110,7 @@ export const resolvers = {
       const API_KEY = Deno.env.get("API_KEY");
       if(!API_KEY) throw new GraphQLError("You need a ApiKey Ninja");
       const timezone = parent.timezone;
-      const url = `https://api.api-ninjas.com/v1/worldtime?city=${timezone}`;
+      const url = `https://api.api-ninjas.com/v1/worldtime?timezone=${timezone}`;
       
       const data = await fetch(url,
         {headers:{"X-Api-Key": API_KEY} } 
