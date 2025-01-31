@@ -1,5 +1,5 @@
 import { Collection, ObjectId } from "mongodb";
-import { APIPhone, RestaurantModel } from "./types.ts";
+import { APIPhone, APITime, APIWeather, RestaurantModel } from "./types.ts";
 import { GraphQLError } from "graphql";
 
 type Context = {
@@ -101,6 +101,35 @@ export const resolvers = {
 
   Restaurant: {
     id: (parent: RestaurantModel): string => parent._id!.toString(),
+
+    time:async (parent:RestaurantModel): Promise<string> =>{
+      const API_KEY = Deno.env.get("API_KEY");
+      if(!API_KEY) throw new GraphQLError("You need a ApiKey Ninja");
+      const url = `https://api.api-ninjas.com/v1/worldtime?city=${parent.city}`;
+      const data = await fetch(url,
+        {headers:{"X-Api-Key": API_KEY} } 
+      );
+      if(data.status !== 200) throw new GraphQLError("Api Ninja Error");
+      
+      const response: APITime = await data.json();
+      
+      return response.datatime;
+    },
+
+    temperature: async(parent:RestaurantModel): Promise<string> =>{
+      const API_KEY = Deno.env.get("API_KEY");
+      if(!API_KEY) throw new GraphQLError("You need a ApiKey Ninja");
+      const url = `https://api.api-ninjas.com/v1/weather?city=${parent.city}`;
+      const data = await fetch(url,
+        {headers:{"X-Api-Key": API_KEY} } 
+      );
+      if(data.status !== 200) throw new GraphQLError("Api Ninja Error");
+      
+      const response: APIWeather = await data.json();
+
+      return response.actualTemp;
+
+    }
 
   }
   

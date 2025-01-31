@@ -12,3 +12,13 @@ export type APIPhone = {
     is_valid: boolean,
 };
 
+
+//https://api.api-ninjas.com/v1/worldtime?city=london
+export type APITime = {
+    datatime: string
+}
+
+//https://api.api-ninjas.com/v1/weather?city=london
+export type APIWeather = {
+    actualTemp: string
+}
