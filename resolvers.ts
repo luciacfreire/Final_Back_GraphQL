@@ -111,10 +111,12 @@ export const resolvers = {
       const data = await fetch(url,
         {headers:{"X-Api-Key": API_KEY} } 
       );
-      console.log(data);
+
+      const response: APITime = await data.json();
+
+      console.log(response);
       if(data.status !== 200) throw new GraphQLError("Api Ninja Error");
       
-      const response: APITime = await data.json();
       
       return response.datatime;
     },
