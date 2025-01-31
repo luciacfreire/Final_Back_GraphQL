@@ -1,6 +1,7 @@
 import { Collection, ObjectId } from "mongodb";
 import { APIPhone, APITime, APIWeather, RestaurantModel } from "./types.ts";
 import { GraphQLError } from "graphql";
+import { Console } from "node:console";
 
 type Context = {
   RestaurantsCollection : Collection<RestaurantModel>,
@@ -117,8 +118,10 @@ export const resolvers = {
       if(dataPhone.status !== 200) throw new GraphQLError("Api Ninja Error");
       
       const responsePhone: APIPhone = await dataPhone.json();
-      const timezone = responsePhone.timezones[0];
+      console.log(responsePhone); 
 
+      const timezone = responsePhone.timezones[0];
+      console.log(timezone);
       const url = `https://api.api-ninjas.com/v1/worldtime?timezone=${timezone}`;
       
       const data = await fetch(url,
