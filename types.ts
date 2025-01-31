@@ -5,7 +5,6 @@ export type RestaurantModel = OptionalId <{
     direction: string,
     city: string,
     phone: string,
-    timezone:string
 }>;
 
 //https://api.api-ninjas.com/v1/validatephone?number=+12065550100

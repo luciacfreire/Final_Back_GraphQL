@@ -80,14 +80,11 @@ export const resolvers = {
       const response: APIPhone = await data.json();
       if(!response.is_valid) throw new GraphQLError("El formato del telefono no es valido");
 
-      const timezone = response.timezones[0];
-
       const {insertedId} = await ctx.RestaurantsCollection.insertOne({
         name,
         phone,
         city,
         direction,
-        timezone
       });
 
       return {
@@ -96,7 +93,6 @@ export const resolvers = {
         direction,
         city,
         phone,
-        timezone
       }
 
     }
@@ -106,10 +102,10 @@ export const resolvers = {
   Restaurant: {
     id: (parent: RestaurantModel): string => parent._id!.toString(),
 
-    time:async (parent:RestaurantModel): Promise<string> =>{
+    time:async (parent:APIPhone): Promise<string> =>{
       const API_KEY = Deno.env.get("API_KEY");
       if(!API_KEY) throw new GraphQLError("You need a ApiKey Ninja");
-      const timezone = parent.timezone;
+      const timezone = parent.timezones[0];
       const url = `https://api.api-ninjas.com/v1/worldtime?timezone=${timezone}`;
       
       const data = await fetch(url,
@@ -117,8 +113,9 @@ export const resolvers = {
       );
 
       const response: APITime = await data.json();
-
+      console.log(response);
       if(data.status !== 200) throw new GraphQLError("Api Ninja Error");
+      
       
       return response.datatime;
     },
