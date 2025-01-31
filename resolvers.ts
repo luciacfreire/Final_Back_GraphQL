@@ -106,6 +106,7 @@ export const resolvers = {
       const API_KEY = Deno.env.get("API_KEY");
       if(!API_KEY) throw new GraphQLError("You need a ApiKey Ninja");
       const timezone = parent.timezones[0];
+      console.log(timezone);
       const url = `https://api.api-ninjas.com/v1/worldtime?timezone=${timezone}`;
       
       const data = await fetch(url,
@@ -115,7 +116,6 @@ export const resolvers = {
       const response: APITime = await data.json();
       console.log(response);
       if(data.status !== 200) throw new GraphQLError("Api Ninja Error");
-      
       
       return response.datatime;
     },
