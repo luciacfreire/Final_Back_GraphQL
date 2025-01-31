@@ -102,12 +102,21 @@ export const resolvers = {
   Restaurant: {
     id: (parent: RestaurantModel): string => parent._id!.toString(),
 
-    time:async (parent:APIPhone): Promise<string> =>{
+    time:async (parent:RestaurantModel): Promise<string> =>{
+
       const API_KEY = Deno.env.get("API_KEY");
       if(!API_KEY) throw new GraphQLError("You need a ApiKey Ninja");
-      console.log(parent.timezones);
 
-      const timezone = parent.timezones[0];
+      const phone = parent.phone;
+      const urlPhone = `https://api.api-ninjas.com/v1/validatephone?number=${phone}`;
+      const dataPhone = await fetch(urlPhone,
+        {headers:{"X-Api-Key": API_KEY} } 
+      );
+      if(dataPhone.status !== 200) throw new GraphQLError("Api Ninja Error");
+      
+      const responsePhone: APIPhone = await dataPhone.json();
+      const timezone = responsePhone.timezones[0];
+
       const url = `https://api.api-ninjas.com/v1/worldtime?timezone=${timezone}`;
       
       const data = await fetch(url,
