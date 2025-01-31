@@ -107,6 +107,7 @@ export const resolvers = {
       if(!API_KEY) throw new GraphQLError("You need a ApiKey Ninja");
       const city = parent.city;
       const url = `https://api.api-ninjas.com/v1/worldtime?city=${city}`;
+      
       const data = await fetch(url,
         {headers:{"X-Api-Key": API_KEY} } 
       );
