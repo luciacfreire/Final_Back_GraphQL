@@ -116,9 +116,10 @@ export const resolvers = {
         {headers:{"X-Api-Key": API_KEY} } 
       );
 
+      const response: APITime = await data.json();
+
       if(data.status !== 200) throw new GraphQLError("Api Ninja Error");
       
-      const response: APITime = await data.json();
       return response.datatime;
     },
 
