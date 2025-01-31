@@ -92,7 +92,7 @@ export const resolvers = {
         name,
         direction,
         city,
-        phone
+        phone,
       }
 
     }
@@ -105,7 +105,8 @@ export const resolvers = {
     time:async (parent:RestaurantModel): Promise<string> =>{
       const API_KEY = Deno.env.get("API_KEY");
       if(!API_KEY) throw new GraphQLError("You need a ApiKey Ninja");
-      const url = `https://api.api-ninjas.com/v1/worldtime?city=${parent.city}`;
+      const city = parent.city;
+      const url = `https://api.api-ninjas.com/v1/worldtime?city=${city}`;
       const data = await fetch(url,
         {headers:{"X-Api-Key": API_KEY} } 
       );
@@ -119,7 +120,8 @@ export const resolvers = {
     temperature: async(parent:RestaurantModel): Promise<string> =>{
       const API_KEY = Deno.env.get("API_KEY");
       if(!API_KEY) throw new GraphQLError("You need a ApiKey Ninja");
-      const url = `https://api.api-ninjas.com/v1/weather?city=${parent.city}`;
+      const city = parent.city;
+      const url = `https://api.api-ninjas.com/v1/weather?city=${city}`;
       const data = await fetch(url,
         {headers:{"X-Api-Key": API_KEY} } 
       );
@@ -127,7 +129,7 @@ export const resolvers = {
       
       const response: APIWeather = await data.json();
 
-      return response.actualTemp;
+      return response.temp;
 
     }
 

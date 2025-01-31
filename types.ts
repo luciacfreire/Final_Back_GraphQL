@@ -20,5 +20,5 @@ export type APITime = {
 
 //https://api.api-ninjas.com/v1/weather?city=london
 export type APIWeather = {
-    actualTemp: string
+    temp: string
 }
