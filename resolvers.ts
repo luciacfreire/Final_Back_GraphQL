@@ -108,10 +108,12 @@ export const resolvers = {
       if(!API_KEY) throw new GraphQLError("You need a ApiKey Ninja");
 
       const phone = parent.phone;
+      console.log(phone);
       const urlPhone = `https://api.api-ninjas.com/v1/validatephone?number=${phone}`;
       const dataPhone = await fetch(urlPhone,
         {headers:{"X-Api-Key": API_KEY} } 
       );
+      console.log(dataPhone);
       if(dataPhone.status !== 200) throw new GraphQLError("Api Ninja Error");
       
       const responsePhone: APIPhone = await dataPhone.json();
